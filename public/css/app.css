@@ -11281,3 +11281,16 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.h-100vh {
+  height: 100vh;
+}
+
+.border-radius {
+  border-radius: 10px;
+}
+
+.login-page .login-box {
+  width: 400px;
+  padding: 2rem;
+  background-color: #f2f2f2;
+}

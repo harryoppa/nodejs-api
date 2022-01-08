@@ -1,6 +1,9 @@
 import React from 'react';
+import Routes from '@harry/js/components/routes/index';
 
 export default () => (
 
-    <h1>Hello</h1>
+    <div className="wrapper">
+        <Routes />
+    </div>
 )

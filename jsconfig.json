@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@harry/*": ["resources/*"]
+        },
+        "target": "ES6",
+        "jsx": "react"
+    }
+}
