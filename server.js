@@ -21,6 +21,13 @@ app.get('/harry', (req, res) => {
     res.json({ message: 'harry dep trai' });
 });
 
+// resources path
+app.get('/public/:dir/:name', (req, res) => {
+    res.sendFile(__dirname + '/public/' + req.params.dir + '/' + req.params.name);
+});
+
+// api routes
+require("./app/routes/index.routes")(app);
 
 // set port, listen for requests
 const PORT = config.PORT;
