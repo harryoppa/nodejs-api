@@ -3,7 +3,7 @@ import Ls from "./Ls";
 
 const version = 'v1'
 // const BASE_URL = `${process.env.MIX_APP_URL || (window.Laravel.appUrl === '/' ? '' : window.Laravel.appUrl) }`;
-const BASE_URL = process.env.AJAX_URL ?? 'http://127.0.0.1:8080';
+const BASE_URL = process.env.AJAX_URL ?? window.location.protocol + '//' + window.location.host + ':' + window.location.port;
 const API_URL =  `${BASE_URL}/api/${version}/`;
 axios.defaults.baseURL = API_URL;
 axios.defaults.headers.common.Accept = 'application/json';
