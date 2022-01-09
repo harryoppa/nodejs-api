@@ -6,8 +6,10 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "nodemon -r dotenv/config server.js & mix watch",
+        "run": "nodemon -r dotenv/config server.js",
         "watch": "mix watch",
-        "prod": "npm run production"
+        "prod": "npm run production",
+        "production": "mix --production"
     },
     "keywords": [
         "rest",

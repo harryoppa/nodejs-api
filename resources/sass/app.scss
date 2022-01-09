@@ -1,4 +1,25 @@
 @import "~bootstrap/scss/bootstrap";
 
+$splitedWidth: var(--banner-width, 55%);
+
 @import "common";
+@import "header";
+@import "banner";
+@import "section";
+@import "pricing";
+@import "footer";
+
 @import "pages/login";
+@import "pages/user-manage";
+
+:root {
+    @media (max-width: 1660px) {
+        --banner-width: 60%;
+    }
+    @media (max-width: 1440px) {
+        --banner-width: 65%;
+    }
+    @media (max-width: 1430px) {
+        --banner-width: 60%;
+    }
+}

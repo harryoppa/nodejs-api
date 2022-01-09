@@ -36,8 +36,8 @@ app.get('/public/:dir/:name', (req, res) => {
 });
 
 // api routes
-require("./app/routes/index.routes")(app);
 require("./app/routes/api.routes")(app);
+require("./app/routes/index.routes")(app);
 
 // set port, listen for requests
 const PORT = config.PORT;

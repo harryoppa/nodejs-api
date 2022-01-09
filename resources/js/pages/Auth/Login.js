@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Http from '@harry/js/services/Http';
 import Ls from '@harry/js/services/Ls';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { useAuth } from '@harry/js/services/AuthContext';
 
 export default () => {
 
-    const [errors, setErrors] = useState(null);
+    const [error, setErrors] = useState(null);
 
     const auth = useAuth();
     const history = useNavigate();
@@ -14,22 +14,42 @@ export default () => {
     const form = useRef(null);
     const loginRequest = async (e) => {
         e.preventDefault();
-        const res = await Http.post('login', new URLSearchParams(new FormData(form.current)).toString());
+        try {
+            const res = await Http.post('login', new URLSearchParams(new FormData(form.current)).toString());
 
-        if (res.data?.accessToken) {
-            Ls.set('auth.token', res.data.accessToken);
-            auth.signin(() => {
-                history('/')
-            })
-            
+            if (res.data?.accessToken) {
+                Ls.set('auth.token', res.data.accessToken);
+                auth.signin(() => {
+                    history('/')
+                })
+                
+            } else {
+                setErrors(res.data.message);
+            }
+        } catch(e) {
+            if (e.response) {
+                setErrors(e.response.data.message);
+            }
         }
+        
     }
+
+    useEffect(() => {
+        if (auth.user) {
+            history('/');
+        }
+    }, [])
 
     return (
         <div className="login-page h-100vh d-flex align-items-center justify-content-center">
             <div className="login-box box-shadow border-radius">
 
-                <h4 className="mb-4">Login to system</h4>
+                <a className="logo mb-5 d-block text-center" href="/">
+                    <img src="/public/images/logo.png" alt="logo" />
+                </a>
+
+
+                <h5 className="mb-4">Login to system</h5>
 
                 <form ref={form} onSubmit={loginRequest}>
                     <div className="mb-3">
@@ -42,7 +62,7 @@ export default () => {
                     {
                         error && (
                             <div className="alert alert-danger">
-                                Please recheck your information
+                                {error}
                             </div>
                         )
                     }

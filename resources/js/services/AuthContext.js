@@ -1,5 +1,6 @@
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState, useEffect } from "react";
 import Ls from "./Ls";
+import Http from '@harry/js/services/Http';
 
 const fakeAuth = {
     isAuthenticated: !!Ls.get('auth.token', false),
@@ -41,9 +42,29 @@ export function useProvideAuth() {
   const signout = cb => {
     return fakeAuth.signout(() => {
       setUser(null);
+      Ls.remove('auth.token');
       cb();
     });
   };
+
+  const getUserInfo = async () => {
+    if (!user) {
+      return null;
+    }
+
+    try {
+      const res = await Http.get('user');
+      setUser(res.data)
+    } catch (e) {
+      return null;
+    }
+  }
+
+  useEffect(() => {
+    if (user && !user.id) {
+      getUserInfo();
+    }
+  }, [user])
 
   return {
     user,

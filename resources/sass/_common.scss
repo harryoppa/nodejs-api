@@ -1,7 +1,20 @@
+body, html {
+    font-family: 'Noto Sans', sans-serif;
+}
+
 .h-100vh {
     height: 100vh;
 }
 
 .border-radius {
     border-radius: 10px;
+}
+
+.min-container {
+    width: 90%;
+    margin: auto;
+
+    @media (min-width: 1440px) {
+        width: 95%;
+    }
 }

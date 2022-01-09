@@ -8,13 +8,17 @@ const verifyToken = (req, res, next) => {
         const bearerToken = bearer[1];
         req.token = bearerToken;
 
-        jwt.verify(req.token, config.secret, (err, authData) => { // authData is the decoded token
+        console.log('verify now', req.token);
+
+        jwt.verify(req.token, config.auth.secret, (err, authData) => { // authData is the decoded token
             if (err) {
                 res.status(401).send({
                     message: "Unauthorized!"
                 });
             } else {
-                req.authData = authData;
+                req.user = {
+                    id: authData.id,
+                };
                 next();
             }
         });

@@ -1,0 +1,83 @@
+.banner {
+    height: 915px;
+
+    .banner-content {
+        .banner-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: $splitedWidth;
+            padding: 2rem;
+            background-image: url(/public/images/banner.png);
+            background-size: contain;
+            z-index: 1;
+            background-color: #011955;
+            background-repeat: no-repeat;
+            background-position: bottom;
+
+            > div:first-child {
+                span {
+                    font-size: 22px;
+                    line-height: 30px;
+                    color: #FFFFFF;
+                    padding: 20px 40px;
+                    opacity: 0.5;
+                    &.active {
+                        opacity: 1;
+                        border-bottom: 1px solid #FFFFFF;
+                    }
+                }
+            }
+
+            > div:last-child {
+                
+                > div{
+                    color: #CFE5FF;
+                    text-align: center;
+                    padding: 43px;
+                    position: relative;
+
+                    > p {
+                        font-weight: bold;
+                        font-size: 64px;
+                        line-height: 87px;
+                    }
+
+                    > span {
+                        font-size: 20px;
+                        line-height: 27px;
+                        height: 60px;
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+
+        .banner-left {
+            width: calc(100% - $splitedWidth);
+            height: 100%;
+
+            h2 {
+                font-family: Noto Sans;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 56px;
+                line-height: 76px;
+                letter-spacing: 0.01em;
+            }
+        }
+    }
+}
+
+.banner-sufix {
+    background: #FFD1E8;
+    mix-blend-mode: multiply;
+    padding: 39.5px;
+    text-align: center;
+
+    span {
+        font-size: 24px;
+        line-height: 33px;
+    }
+}

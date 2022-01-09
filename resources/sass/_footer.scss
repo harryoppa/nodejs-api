@@ -1,0 +1,35 @@
+footer {
+    background-color: #F3F9FF;
+    border-top: 1px solid #99999975;
+
+    .row {
+        [class*="col-"] {
+            &:not(:first-child) {
+                .footer-item {
+                    border-left: 1px solid #99999975;
+                }
+            }
+
+            .footer-item {
+                height: 100%;
+                padding: 33px 38px;
+                h2 {
+                    font-size: 22px;
+                    line-height: 30px;
+                    letter-spacing: -0.3px;
+                    color: #181949;
+                    margin-bottom: 20px;
+        
+                }
+        
+                p {
+                    font-size: 15px;
+                    line-height: 20px;
+                    letter-spacing: -0.204545px;
+                    color: #666666;
+                    margin-bottom: 16px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,104 @@
+.pricing {
+    background-color: #F3F9FF;
+    padding: 120px 0;
+    font-style: normal;
+    font-weight: bold;
+
+    .pricing-item {
+        background: #FFFFFF;
+        border: 1px solid #DEDEDE;
+        box-sizing: border-box;
+        /* SHADOW */
+
+        box-shadow: 0px 13px 19px rgba(0, 0, 0, 0.07);
+        border-radius: 10px;
+        padding: 43px 10px 43px 40px;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+            cursor: pointer;
+            transform: scale(1.05);
+        }
+
+        &.item--medium {
+            border: 2px solid #E6367E;
+        }
+
+        &.item--hard {
+            border: 2px solid #E6367E;
+            background-color: #E6367E;
+            * {
+                color: #FFF !important;
+            }
+        }
+
+        > h2 {
+            font-size: 22px;
+            line-height: 33px;
+            /* identical to box height, or 150% */
+            
+            letter-spacing: 0.1px;
+            
+            /* Kairos/DarkBlue */
+            
+            color: #181949;
+        }
+
+        > p {
+            font-size: 12px;
+            line-height: 18px;
+            letter-spacing: 0.1px;
+            
+            /* second text */
+            
+            color: #374754;
+        }
+
+        .pricing-item-value {
+            > p {
+                font-size: 36px;
+                line-height: 65px;
+                /* identical to box height, or 102% */
+
+                letter-spacing: 0.2px;
+
+                /* Kairos/Black */
+
+                color: #111111;
+
+                &.big {
+                    font-size: 64px;
+                }
+            }
+
+            > div {
+                padding-left: 10px;
+                > span {
+                    &:first-child {
+                        font-size: 22px;
+                        line-height: 33px;
+                        /* identical to box height, or 150% */
+                        
+                        letter-spacing: 0.1px;
+                        
+                        /* text */
+                        
+                        color: #252B42;
+                    }
+
+                    &:last-child {
+                        font-size: 12px;
+                        line-height: 18px;
+                        /* identical to box height, or 150% */
+                        
+                        letter-spacing: 0.1px;
+                        
+                        /* second text */
+                        
+                        color: #374754;
+                    }
+                }
+            }
+        }
+    }
+}
