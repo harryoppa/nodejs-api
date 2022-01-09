@@ -6,6 +6,7 @@ export default () => {
     const [users, setUsers] = useState([]);
     const [editUser, setEditUser] = useState({});
     const [editPassword, setEditPassword] = useState('');
+    const [newFormId, setNewFormId] = useState('');
     const modal = useRef();
     const myModal = useRef()
 
@@ -23,6 +24,7 @@ export default () => {
         myModal.current = new bootstrap.Modal(modal.current, {
             keyboard: false
         });
+        setNewFormId(new Date().getTime());
 
         myModal.current.show();
     }
@@ -109,7 +111,7 @@ export default () => {
             <div className="modal fade" ref={modal} tabIndex="-1">
                 <div className="modal-dialog">
                     <div className="modal-content">
-                        <form onSubmit={onSaveUser}>
+                        <form key={newFormId} onSubmit={onSaveUser}>
                             <div className="modal-header">
                                 <h5 className="modal-title">{editUser.fullname ? `Edit user ${editUser.fullname}` : 'Create a user'}</h5>
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -121,7 +123,7 @@ export default () => {
                                 </div>
                                 <div className="mb-3">
                                     <label>Email</label>
-                                    <input type="text" className="form-control" name="email" defaultValue={editUser.email} />
+                                    <input type="email" className="form-control" name="email" defaultValue={editUser.email} />
                                 </div>
 
                                 {
