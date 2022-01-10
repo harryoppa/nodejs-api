@@ -27,7 +27,7 @@ export default () => {
         <header ref={el}>
             <div className="min-container">
                 <nav className="navbar navbar-expand-lg d-flex justify-content-between navbar-light">
-                    <Link className="navbar-brand" href="/">
+                    <Link className="navbar-brand" to="/">
                         <img src="/public/images/logo.png" alt="logo" />
                     </Link>
 
