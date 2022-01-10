@@ -13,6 +13,9 @@ $splitedWidth: var(--banner-width, 55%);
 @import "pages/user-manage";
 
 :root {
+    @media (max-width: 1920px) {
+        --banner-width: 51%;
+    }
     @media (max-width: 1660px) {
         --banner-width: 60%;
     }
