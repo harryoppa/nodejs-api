@@ -1,37 +1,47 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/config.js");
 
-const verifyToken = (req, res, next) => {
-    const bearerHeader = req.headers['authorization'];
-    if (typeof bearerHeader !== 'undefined') {
-        const bearer = bearerHeader.split(' ');
+// verify token middleware
+const verifyToken = async (ctx, next) => {
+    console.log('url', ctx.url);
+    // if url has login, skip verification
+    if (ctx.url.includes("/login")) {
+        await next();
+        return;
+    }
+
+    // get token from header
+    const bearerHeader = ctx.request.header.authorization;
+    if (typeof bearerHeader !== "undefined") {
+        const bearer = bearerHeader.split(" ");
         const bearerToken = bearer[1];
-        req.token = bearerToken;
-
-        console.log('verify now', req.token);
-
-        jwt.verify(req.token, config.auth.secret, (err, authData) => { // authData is the decoded token
+        ctx.token = bearerToken;
+        // verify token
+        await jwt.verify(ctx.token, config.auth.secret, async (err, authData) => {
             if (err) {
-                res.status(401).send({
+                ctx.status = 401;
+                ctx.body = {
                     message: "Unauthorized!"
-                });
+                };
             } else {
-                req.user = {
+                ctx.user = {
                     id: authData.id,
                 };
-                next();
+                await next();
             }
         });
     } else {
-        if (req.xhr) {
-            res.status(403).send({
+        // if xhr
+        if (ctx.request.header["x-requested-with"] === "XMLHttpRequest") {
+            ctx.status = 403;
+            ctx.body = {
                 message: "No token provided!"
-            });
+            };
         } else {
-            res.redirect('/login');
+            ctx.redirect("/login");
         }
     }
-};
+}
 
 module.exports = {
     verifyToken,

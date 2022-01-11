@@ -1,22 +1,23 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+const Koa = require("koa");
+const bodyParser = require('koa-bodyparser');
+const logger = require('koa-logger')
+const Router = require('@koa/router');
+const cors = require("koa2-cors");
 const bcrypt = require("bcryptjs");
 const config = require("./app/config/config.js");
+const fs = require('fs');
+const mime = require('mime-types')
 
-const app = express();
+const swagger = require("swagger2");
+const {
+    ui
+} = require("swagger2-koa");
+
+const app = new Koa();
 
 const corsOptions = {
   origin: "http://localhost:8081"
 };
-
-app.use(cors(corsOptions));
-
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
-
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./app/models");
 const User = db.user;
@@ -25,25 +26,47 @@ db.sequelize.sync().then(() => {
   setup();
 });
 
+const router = new Router();
 
-app.get('/harry', (req, res) => {
-    res.json({ message: 'harry dep trai' });
+router.get('/harry', async (ctx) => {
+    ctx.body = {
+        'version': 1,
+        'api': 'User Management API',
+        'doc': 'http://localhost:8080/swagger'
+    }
 });
 
 // resources path
-app.get('/public/:dir/:name', (req, res) => {
-    res.sendFile(__dirname + '/public/' + req.params.dir + '/' + req.params.name);
+router.get('/public/:dir/:name', async (ctx) => {
+  const path = __dirname + '/public/' + ctx.params.dir + '/' + ctx.params.name;
+
+  const mimeType = mime.lookup(path);
+  const src = fs.createReadStream(path); 
+  ctx.response.set('Content-Type', mimeType);
+  ctx.body = src;
 });
 
 // api routes
-require("./app/routes/api.routes")(app);
-require("./app/routes/index.routes")(app);
+require("./app/routes/api.routes")(router);
+require("./app/routes/index.routes")(router);
 
 // set port, listen for requests
 const PORT = config.PORT;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
+const swaggerDocument = swagger.loadDocumentSync(__dirname + "/api.yaml");
+
+
+app
+  .use(cors(corsOptions))
+  .use(ui(swaggerDocument, "/swagger"))
+  .use(logger())
+  .use(bodyParser())
+  .use(router.routes())
+  .use(router.allowedMethods())
+
+  .listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
 
 function setup() {
   User.findOne({

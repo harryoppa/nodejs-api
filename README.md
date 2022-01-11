@@ -1,5 +1,5 @@
 # NodeJS and ReactJS Authencation app
-- Node.js, Express, Sequelize and MySQL + JWT Authentication and Authorization
+- Node.js, KoaJS, Sequelize and MySQL + JWT Authentication and Authorization
 - ReactJS, React Router 6
 ## Getting Started
 

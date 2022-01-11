@@ -5,38 +5,50 @@ const config = require("../config/config")
 
 const User = db.user;
 
-exports.login = async (req, res) => {
+exports.login = async (ctx) => {
   try {
     const user = await User.findOne({
       where: {
-        email: req.body.email,
+        email: ctx.request.body.email,
       },
     });
   
     if (!user) {
-      return res.status(404).send({ message: "User Not found." });
+      ctx.status = 404;
+      ctx.body = {
+        message: "User Not found.",
+      };
+      return;
     }
   
-    let passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+    let passwordIsValid = bcrypt.compareSync(ctx.request.body.password, user.password);
   
     if (!passwordIsValid) {
-      return res.status(401).send({
+
+      ctx.status = 401;
+      ctx.body = {
         accessToken: null,
         message: "Invalid Password!",
-      });
+      };
+      return;
     }
   
     let token = jwt.sign({ id: user.id }, config.auth.secret, {
       expiresIn: 86400, // 24 hours
     });
   
-    res.status(200).send({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        accessToken: token,
-    });
+    ctx.status = 200;
+    ctx.body = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      accessToken: token,
+    };
   } catch(err) {
-    res.status(500).send({ message: err.message });
+    // res.status(500).send({ message: err.message });
+    ctx.status = 500;
+    ctx.body = {
+      message: err.message,
+    };
   }
 };

@@ -1,24 +1,29 @@
-module.exports = (app) => {
-    const authController = require('../controllers/auth.controller');
-    const userController = require('../controllers/user.controller');
-    const authJwt = require('../middlewares/authJwt');
+const Router = require('@koa/router');
+const authController = require('../controllers/auth.controller');
+const userController = require('../controllers/user.controller');
+const authJwt = require('../middlewares/authJwt');
 
-    const router = require("express").Router();
+module.exports = (app) => {
+    
+
+    const router = new Router();
+
+    router.use(authJwt.verifyToken);
 
     // login post api
     router.post('/login', authController.login);
 
     // user infor get api
-    router.get('/user', authJwt.verifyToken, userController.userInfo);
+    router.get('/user', userController.userInfo);
 
     // user list get api
-    router.get('/users', authJwt.verifyToken, userController.userList);
+    router.get('/users', userController.userList);
 
     // user create or update post api
-    router.put('/users', authJwt.verifyToken, userController.createOrUpdateUser);
+    router.put('/users', userController.createOrUpdateUser);
 
     // user delete post api
-    router.delete('/users/:id', authJwt.verifyToken, userController.deleteUser);
+    router.delete('/users/:id', userController.deleteUser);
 
-    app.use('/api/v1', router);
+    app.use('/api/v1', router.routes(), router.allowedMethods());
 }
